@@ -21,6 +21,16 @@ This lab demonstrates controlled builds, vulnerability scanning, SBOM generation
 - [Architecture and trust boundaries](docs/architecture/README.md)
 - [Architecture decision records](docs/architecture/decisions/)
 
+## Run it
+
+See the [end-to-end lab guide](docs/implementation/run-the-lab.md) for local tests, Docker Compose, Trivy/Syft, GHCR release, Cosign signing and the Kyverno lab.
+
+```bash
+python -m pip install -r requirements-dev.txt
+pytest -q
+docker compose up --build -d
+```
+
 ## Learning path
 1. [Threat model](docs/security/threat-model.md)
 2. [Implementation roadmap](docs/implementation/roadmap.md)
