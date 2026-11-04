@@ -30,6 +30,14 @@ curl http://127.0.0.1:8000/healthz
 docker compose down
 ```
 
+The Compose stack also starts Prometheus and Grafana:
+- Prometheus: `http://127.0.0.1:9090`
+- Grafana: `http://127.0.0.1:3000` (local demo default is `admin/admin`; set `GRAFANA_ADMIN_PASSWORD` before starting and never reuse this default outside a disposable lab).
+- The provisioned **Supply Chain Demo API** dashboard shows request rate, p95 latency, total requests and status-code distribution.
+- Prometheus scrapes the API at `api:8000/metrics`.
+
+Generate traffic by opening `http://127.0.0.1:8000/` and `/healthz` several times, then refresh the Grafana dashboard.
+
 The image runs as UID 10001. Compose adds a read-only root filesystem, drops Linux capabilities and disables privilege escalation. For Windows PowerShell, use `Invoke-RestMethod http://127.0.0.1:8000/healthz` instead of curl if curl is aliased.
 
 ## 3. Run local scans and generate an SBOM
