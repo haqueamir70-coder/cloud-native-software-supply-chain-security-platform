@@ -35,7 +35,7 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run tests
-        run: pytest -q
+        run: python -m pytest -q
 
       - name: Scan repository with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
