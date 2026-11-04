@@ -1,0 +1,6 @@
+# Security-sensitive platform configuration requires repository-owner review.
+/.github/ @haqueamir70-coder
+/k8s/ @haqueamir70-coder
+/terraform/ @haqueamir70-coder
+/Dockerfile @haqueamir70-coder
+/SECURITY.md @haqueamir70-coder
