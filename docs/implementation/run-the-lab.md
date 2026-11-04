@@ -15,7 +15,7 @@ python -m venv .venv
 source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements-dev.txt
-pytest -q
+python -m pytest -q
 uvicorn app.main:app --reload
 ```
 
