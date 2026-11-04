@@ -27,9 +27,13 @@ See the [end-to-end lab guide](docs/implementation/run-the-lab.md) for local tes
 
 ```bash
 python -m pip install -r requirements-dev.txt
-pytest -q
+python -m pytest -q
 docker compose up --build -d
 ```
+
+## Observability
+
+The Compose stack provisions Prometheus and Grafana with an API dashboard for request rate, p95 latency, request totals and status codes. See the [monitoring configuration](monitoring/) and [lab guide](docs/implementation/run-the-lab.md).
 
 ## Learning path
 1. [Threat model](docs/security/threat-model.md)
