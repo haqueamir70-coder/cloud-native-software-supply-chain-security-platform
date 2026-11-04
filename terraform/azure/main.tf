@@ -3,6 +3,7 @@ resource "azurerm_resource_group" "lab" {
   location = var.location
   tags     = var.tags
 }
+
 resource "azurerm_virtual_network" "lab" {
   name                = "${var.cluster_name}-vnet"
   location            = azurerm_resource_group.lab.location
@@ -10,12 +11,14 @@ resource "azurerm_virtual_network" "lab" {
   address_space       = ["10.80.0.0/16"]
   tags                = var.tags
 }
+
 resource "azurerm_subnet" "aks" {
   name                 = "snet-aks"
   resource_group_name  = azurerm_resource_group.lab.name
   virtual_network_name = azurerm_virtual_network.lab.name
   address_prefixes     = ["10.80.1.0/24"]
 }
+
 resource "azurerm_log_analytics_workspace" "lab" {
   name                = "${var.cluster_name}-logs"
   location            = azurerm_resource_group.lab.location
@@ -24,6 +27,7 @@ resource "azurerm_log_analytics_workspace" "lab" {
   retention_in_days   = 30
   tags                = var.tags
 }
+
 resource "azurerm_kubernetes_cluster" "lab" {
   name                = var.cluster_name
   location            = azurerm_resource_group.lab.location
@@ -46,15 +50,26 @@ resource "azurerm_kubernetes_cluster" "lab" {
     min_count            = 1
     max_count            = 2
     os_disk_size_gb      = 64
-    upgrade_settings { max_surge = "33%" }
+
+    upgrade_settings {
+      max_surge = "33%"
+    }
   }
-  identity { type = "SystemAssigned" }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
   network_profile {
     network_plugin    = "azure"
     network_policy    = "azure"
     load_balancer_sku = "standard"
     outbound_type     = "loadBalancer"
   }
-  oms_agent { log_analytics_workspace_id = azurerm_log_analytics_workspace.lab.id }
+
+  oms_agent {
+    log_analytics_workspace_id = azurerm_log_analytics_workspace.lab.id
+  }
+
   tags = var.tags
 }
