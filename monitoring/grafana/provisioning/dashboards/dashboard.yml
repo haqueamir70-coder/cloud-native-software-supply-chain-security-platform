@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: Supply Chain Demo
+    orgId: 1
+    folder: Supply Chain Demo
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
