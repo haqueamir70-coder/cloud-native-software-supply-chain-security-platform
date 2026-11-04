@@ -48,6 +48,21 @@ jobs:
           exit-code: "1"
           format: table
 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.5"
+
+      - name: Validate Terraform configuration
+        working-directory: terraform/azure
+        run: |
+          terraform fmt -check -recursive
+          terraform init -backend=false
+          terraform validate
+
+      - name: Build container image
+        run: docker build --tag supply-chain-demo-api:ci .
+
       - name: Validate Dockerfile with Hadolint
         uses: hadolint/hadolint-action@v3.5.0
         with:
