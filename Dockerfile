@@ -11,7 +11,7 @@ WORKDIR /app
 RUN groupadd --system --gid 10001 app && useradd --system --uid 10001 --gid 10001 --home-dir /app app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir setuptools==80.9.0 && \
+RUN pip install --no-cache-dir setuptools==84.2.1 && \
     pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
