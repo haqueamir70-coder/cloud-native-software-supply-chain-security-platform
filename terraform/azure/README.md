@@ -15,6 +15,7 @@ This Terraform root provisions a dedicated resource group, VNet/subnet, Log Anal
 az login
 az account set --subscription "<SUBSCRIPTION_ID>"
 terraform init
+# Commit .terraform.lock.hcl after reviewing provider checksums/version.
 terraform fmt -check
 terraform validate
 terraform plan -out=tfplan
