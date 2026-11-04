@@ -37,9 +37,10 @@ The Compose stack provisions Prometheus and Grafana with an API dashboard for re
 
 ## Learning path
 1. [Threat model](docs/security/threat-model.md)
-2. [Implementation roadmap](docs/implementation/roadmap.md)
-3. [8+ years senior DevSecOps interview handbook](docs/interview/README.md)
-4. [Scenario answer framework](docs/interview/scenario-answer-template.md)
+2. [Security exception register](docs/security/exception-register.md)
+3. [Implementation roadmap](docs/implementation/roadmap.md)
+4. [8+ years senior DevSecOps interview handbook](docs/interview/README.md)
+5. [Scenario answer framework](docs/interview/scenario-answer-template.md)
 
 ## Technology map
 
