@@ -52,13 +52,15 @@ jobs:
           sbom: true
 
       - name: Scan pushed image by immutable digest
-        uses: aquasecurity/trivy-action@v0.36.0
-        with:
-          version: v0.69.3
-          image-ref: ${{ steps.image.outputs.name }}@${{ steps.build.outputs.digest }}
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
-          exit-code: "1"
+        env:
+          IMAGE_NAME: ${{ steps.image.outputs.name }}
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          docker run --rm \
+            -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" \
+            aquasec/trivy:0.76.1 image \
+            --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 \
+            "$IMAGE_NAME@$IMAGE_DIGEST"
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3.8.1
