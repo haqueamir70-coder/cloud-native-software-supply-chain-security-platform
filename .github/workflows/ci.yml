@@ -60,8 +60,20 @@ jobs:
           terraform init -backend=false
           terraform validate
 
-      - name: Build container image
-        run: docker build --tag supply-chain-demo-api:ci .
+      - name: Validate and smoke test Compose stack
+        run: |
+          docker compose config --quiet
+          docker compose up --build -d
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8000/healthz; then
+              break
+            fi
+            sleep 2
+          done
+          curl --fail --silent http://127.0.0.1:8000/metrics | grep -q http_requests_total
+          curl --fail --silent http://127.0.0.1:9090/-/ready
+          curl --fail --silent http://127.0.0.1:3000/api/health
+          docker compose down --volumes
 
       - name: Validate Dockerfile with Hadolint
         uses: hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387 # v3.5.0
