@@ -1,0 +1,5 @@
+resource_group_name = "rg-supply-chain-lab"
+location            = "East US"
+cluster_name        = "aks-supply-chain-lab"
+node_vm_size        = "Standard_D2s_v5"
+node_count          = 1
