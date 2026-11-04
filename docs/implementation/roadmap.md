@@ -23,7 +23,7 @@ This roadmap distinguishes **implemented configuration** from **verified operati
 - [x] Release workflow builds and publishes an OCI image to GHCR.
 - [x] Least-privilege workflow permissions and OIDC-based keyless signing.
 - [x] CI action references pinned to immutable commit SHAs.
-- [ ] Pin all release workflow actions to immutable SHAs as well.
+- [x] Pin all release workflow actions to immutable SHAs as well.
 
 ## Phase 3 — Image and security evidence
 - [x] Build OCI image and capture immutable digest.
@@ -38,7 +38,7 @@ This roadmap distinguishes **implemented configuration** from **verified operati
 - [x] Cosign keyless signature using GitHub Actions identity.
 - [x] GitHub build provenance attestation.
 - [x] Release workflow includes a Cosign verification step constrained to the expected workflow identity.
-- [ ] Confirm the latest release run passes the explicit signature-verification step.
+- [x] Release run passes explicit signature verification against the expected workflow identity.
 
 ## Phase 5 — Kubernetes admission
 - [x] Kubernetes namespace, hardened Deployment and Service manifests.
