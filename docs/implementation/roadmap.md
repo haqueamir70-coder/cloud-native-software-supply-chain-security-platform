@@ -16,7 +16,7 @@ This roadmap distinguishes **implemented configuration** from **verified operati
 - [x] Non-root container (UID 10001), pinned application dependencies and health check.
 - [x] Hardened Compose service settings: read-only root filesystem, dropped capabilities and no-new-privileges.
 - [x] Docker build and Hadolint validation in CI.
-- [ ] Confirm the full Compose smoke test (API + Prometheus + Grafana) passes in the latest CI run.
+- [x] Full Compose smoke test (API + Prometheus + Grafana) passes in CI.
 
 ## Phase 2 — Continuous integration and release
 - [x] Pull request workflow for tests, Trivy source/secret scanning, Kubernetes manifest scanning and Terraform validation.
