@@ -82,16 +82,18 @@ jobs:
           format: spdx-json
           output-file: sbom.spdx.json
 
-      - name: Sign and attest release summary
+      - name: Write release summary
         if: always()
+        env:
+          IMAGE_NAME: ${{ steps.image.outputs.name }}
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
         run: |
           {
-            echo "## Container release evidence"
-            echo ""
-            echo "- Image: `${{ steps.image.outputs.name }}`"
-            echo "- Digest: `${{ steps.build.outputs.digest }}`"
-            echo "- Commit: `$GITHUB_SHA`"
-            echo "- Workflow: `$GITHUB_WORKFLOW`"
+            printf '%s\n\n' '## Container release evidence'
+            printf -- '- Image: %s\n' "$IMAGE_NAME"
+            printf -- '- Digest: %s\n' "$IMAGE_DIGEST"
+            printf -- '- Commit: %s\n' "$GITHUB_SHA"
+            printf -- '- Workflow: %s\n' "$GITHUB_WORKFLOW"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload SBOM
