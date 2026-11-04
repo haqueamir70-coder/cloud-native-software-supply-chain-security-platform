@@ -8,7 +8,7 @@ This roadmap distinguishes **implemented configuration** from **verified operati
 - [x] Threat model, architecture decision records and security disclosure guidance.
 - [x] Local prerequisites and repeatable lab guide.
 - [x] Operational runbooks.
-- [ ] Add CODEOWNERS and contribution workflow.
+- [x] Add CODEOWNERS and contribution guidance.
 
 ## Phase 1 — Application and container
 - [x] Non-sensitive FastAPI demo API with health, readiness, version and metrics endpoints.
@@ -53,7 +53,7 @@ This roadmap distinguishes **implemented configuration** from **verified operati
 - [x] Prometheus scrape configuration.
 - [x] Provisioned Grafana datasource and API dashboard (request rate, p95 latency, total requests and status codes).
 - [x] Runbooks for vulnerability gate, signature verification, admission denial, compromised workflow and registry outage.
-- [ ] Add a time-bound security exception register with owner, rationale, compensating control and expiry.
+- [x] Add a time-bound security exception register template with owner, rationale, compensating control and expiry.
 - [ ] Exercise incident response and rollback in a disposable cluster.
 
 ## Definition of done
