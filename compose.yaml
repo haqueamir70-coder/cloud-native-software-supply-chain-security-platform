@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: .
+    image: supply-chain-demo-api:local
+    ports:
+      - "8000:8000"
+    environment:
+      APP_VERSION: local
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
