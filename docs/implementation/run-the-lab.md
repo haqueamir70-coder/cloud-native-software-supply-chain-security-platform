@@ -79,11 +79,9 @@ Wait for Kyverno to become ready:
 kubectl -n kyverno rollout status deployment/kyverno-admission-controller
 ```
 
-After a successful release, copy the exact image digest from the workflow summary. Set the deployment image to:
+The committed Deployment is pinned to a real image digest that passed the release workflow's Trivy scan, Cosign signing, signature verification and provenance generation. For a newer release, update the manifest to the new digest from the workflow summary; never switch it to a mutable tag.
 
-```
-ghcr.io/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/api@sha256:YOUR_REAL_DIGEST
-```
+If the GHCR package is private, configure a read-only `imagePullSecret` for the demo namespace and make the registry credentials available to Kyverno's verification controller. For the simplest disposable lab, you can make this demo-only package public in the GitHub Packages settings. Do not publish private application images or sensitive artifacts.
 
 Then apply the deployment and service:
 
