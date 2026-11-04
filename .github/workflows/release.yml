@@ -68,6 +68,17 @@ jobs:
       - name: Sign the exact image digest using keyless identity
         run: cosign sign --yes "${{ steps.image.outputs.name }}@${{ steps.build.outputs.digest }}"
 
+      - name: Verify the published signature against the expected workflow identity
+        env:
+          IMAGE_NAME: ${{ steps.image.outputs.name }}
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+          CERT_IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/release.yml@refs/heads/main
+        run: |
+          cosign verify \
+            --certificate-identity "$CERT_IDENTITY" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$IMAGE_NAME@$IMAGE_DIGEST"
+
       - name: Generate build provenance attestation
         uses: actions/attest-build-provenance@v2
         with:
