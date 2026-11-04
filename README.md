@@ -73,3 +73,8 @@ A signature proves that an identity signed a digest; it does not prove the image
 
 ## Status
 The source-to-image CI/release path is implemented and has a successful GitHub Actions run covering tests, Trivy scans, Terraform validation, Docker Compose smoke tests, image signing, signature verification, provenance and SPDX SBOM upload. Kubernetes admission policy is configured in Audit mode; positive/negative admission tests and Enforce rollout still require a disposable kind/AKS cluster. The optional AKS Terraform root is validated in CI but has not been applied because it creates billable Azure resources. See the [roadmap](docs/implementation/roadmap.md) for exact completion boundaries.
+
+
+## Architecture and interview preparation
+
+See the [architecture diagram and interview questions](docs/README.md) for the repository-specific design walkthrough and technical interview guide.
