@@ -41,6 +41,7 @@ The Compose stack provisions Prometheus and Grafana with an API dashboard for re
 3. [Implementation roadmap](docs/implementation/roadmap.md)
 4. [8+ years senior DevSecOps interview handbook](docs/interview/README.md)
 5. [Scenario answer framework](docs/interview/scenario-answer-template.md)
+6. [Senior interview project walkthrough](docs/interview/project-walkthrough.md)
 
 ## Technology map
 
