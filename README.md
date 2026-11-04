@@ -19,6 +19,8 @@ This lab demonstrates controlled builds, vulnerability scanning, SBOM generation
 - Operational evidence, threat modelling, runbooks and senior interview preparation.
 
 ## Architecture
+
+[Open the interactive architecture preview](https://haqueamir70-coder.github.io/cloud-native-software-supply-chain-security-platform/) after enabling GitHub Pages using [these steps](docs/implementation/github-pages.md).
 - [Interactive animated architecture](docs/architecture/interactive.html)
 - [Static architecture diagram](docs/architecture/architecture.svg)
 - [Architecture and trust boundaries](docs/architecture/README.md)
