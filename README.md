@@ -2,6 +2,9 @@
 
 > A production-minded DevSecOps reference implementation establishing verifiable trust from source commit to Kubernetes runtime.
 
+[![CI Security Checks](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/ci.yml)
+[![Signed Container Release](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/release.yml)
+
 [![Architecture](docs/architecture/architecture.svg)](docs/architecture/interactive.html)
 
 This lab demonstrates controlled builds, vulnerability scanning, SBOM generation, provenance, artifact signing and Kubernetes admission verification. A green build is not automatically a trusted deployment: the cluster independently verifies the artifact.
@@ -22,6 +25,8 @@ This lab demonstrates controlled builds, vulnerability scanning, SBOM generation
 - [Architecture decision records](docs/architecture/decisions/)
 
 ## Run it
+
+The optional [Azure AKS Terraform lab](terraform/azure/README.md) provisions billable infrastructure; review the cost warning before applying. The current Kubernetes Deployment is pinned to a verified signed image digest.
 
 See the [end-to-end lab guide](docs/implementation/run-the-lab.md) for local tests, Docker Compose, Trivy/Syft, GHCR release, Cosign signing and the Kyverno lab.
 
@@ -59,6 +64,10 @@ The Compose stack provisions Prometheus and Grafana with an API dashboard for re
 
 ## Security caveats
 A signature proves that an identity signed a digest; it does not prove the image is vulnerability-free. An SBOM is an inventory, not a security certification. Provenance is only as trustworthy as its builder, source controls and verification policy. Never commit production credentials, private signing keys, customer telemetry or real secrets.
+
+## Verified release evidence
+
+[Open a successful signed-image release run](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/runs/41786989755). The run passed image scanning, Cosign keyless signing and identity verification, GitHub provenance generation, and SPDX SBOM upload.
 
 ## Status
 This repository is being built as a hands-on lab. Architecture and learning material are not evidence that integrations are deployed. A control is operational only after its tests and workflow runs succeed. See the roadmap for phase-by-phase acceptance criteria.
