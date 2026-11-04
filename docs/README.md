@@ -79,3 +79,7 @@ Use severity-based remediation SLAs, exception owner/expiry, compensating contro
 ### 10. Answer
 
 Signing proves an identity signed a particular digest; it does not prove the image has no vulnerabilities, malicious logic or insecure runtime configuration.
+
+## Complete zero-to-hero guide
+
+See [ZERO-TO-HERO.md](./ZERO-TO-HERO.md) for the business scenario, architecture walkthrough, tool-by-tool explanations, implementation sequence, practical commands, troubleshooting playbook and additional scenario-based interview questions with answers.
