@@ -1,0 +1,36 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-supply-chain-demo-images
+  annotations:
+    policies.kyverno.io/title: Verify Supply Chain Demo Images
+    policies.kyverno.io/category: Software Supply Chain Security
+    policies.kyverno.io/description: >-
+      Verifies that the demo API image is signed by the expected GitHub Actions
+      workflow identity. Start in Audit mode; switch to Enforce only after testing.
+spec:
+  validationFailureAction: Audit
+  background: false
+  rules:
+    - name: verify-demo-api-image
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - supply-chain-demo
+      verifyImages:
+        - imageReferences:
+            - "ghcr.io/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/api:*"
+          mutateDigest: true
+          verifyDigest: true
+          required: true
+          attestations:
+            - predicateType: https://slsa.dev/provenance/v1
+              attestors:
+                - count: 1
+                  entries:
+                    - keyless:
+                        subject: "https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/.github/workflows/release.yml@refs/heads/main"
+                        issuer: "https://token.actions.githubusercontent.com"
