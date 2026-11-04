@@ -24,8 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: api
-          # Replace this tag with the immutable digest emitted by release.yml.
-          image: ghcr.io/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/api:REPLACE_WITH_VERIFIED_DIGEST
+          image: ghcr.io/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/api@sha256:5d01690245377b1be9bc4713af4c9953386f8888b86b3286b86796726d425c69
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
