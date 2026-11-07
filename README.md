@@ -1,3 +1,15 @@
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,50:7C3AED,100:06B6D4&height=190&section=header&text=Cloud+Native+Supply+Chain+Security&fontSize=32&fontColor=ffffff&animation=fadeIn" alt="Cloud Native Supply Chain Security project banner" width="100%" />
+
+<img src="https://readme-typing-svg.demolab.com/?font=Inter&weight=600&size=16&pause=1600&color=38BDF8&center=true&vCenter=true&width=900&height=36&lines=Cloud+Native+Supply+Chain+Security+%E2%80%A2+Architecture+%E2%80%A2+Automation+%E2%80%A2+Security" alt="Animated project focus line" />
+
+![Security](https://img.shields.io/badge/Software+Supply+Chain-7C3AED?style=for-the-badge) ![Kubernetes](https://img.shields.io/badge/Cloud+Native-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white) ![CI](https://img.shields.io/badge/GitHub+Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
+</div>
+
+---
+
 # Cloud-Native Software Supply Chain Security Platform
 
 > A production-minded DevSecOps reference implementation establishing verifiable trust from source commit to Kubernetes runtime.
