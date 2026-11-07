@@ -1,48 +1,64 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,50:7C3AED,100:06B6D4&height=190&section=header&text=Cloud+Native+Supply+Chain+Security&fontSize=32&fontColor=ffffff&animation=fadeIn" alt="Cloud Native Supply Chain Security project banner" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,45:6D28D9,100:06B6D4&height=230&section=header&text=Software%20Supply%20Chain%20Security&fontSize=34&fontColor=ffffff&animation=fadeIn" width="100%" alt="Cloud-native software supply chain security"/>
 
-<img src="https://readme-typing-svg.demolab.com/?font=Inter&weight=600&size=16&pause=1600&color=38BDF8&center=true&vCenter=true&width=900&height=36&lines=Cloud+Native+Supply+Chain+Security+%E2%80%A2+Architecture+%E2%80%A2+Automation+%E2%80%A2+Security" alt="Animated project focus line" />
+### Source integrity · Artifact identity · Provenance · Runtime verification
 
-![Security](https://img.shields.io/badge/Software+Supply+Chain-7C3AED?style=for-the-badge) ![Kubernetes](https://img.shields.io/badge/Cloud+Native-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white) ![CI](https://img.shields.io/badge/GitHub+Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+[![CI](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/ci.yml)
+[![Release](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/release.yml)
+[![Trivy](https://img.shields.io/badge/Scan-Trivy-1904DA?style=for-the-badge)](https://trivy.dev/)
+[![Cosign](https://img.shields.io/badge/Sign-Cosign-4B32C3?style=for-the-badge)](https://docs.sigstore.dev/cosign/)
+
+**A DevSecOps reference implementation that builds verifiable trust from source commit to container digest — using scanning, SBOMs, signing, provenance and Kubernetes admission verification.**
+
+[Architecture](#-trust-chain-architecture) · [Run the lab](#-run-the-lab) · [Evidence](#-verified-release-evidence) · [Security model](#-what-each-control-proves)
 
 </div>
 
----
+## Why this matters
 
-# Cloud-Native Software Supply Chain Security Platform
+A container image can be built successfully and still be vulnerable, tampered with or produced by an untrusted workflow. A secure supply chain needs evidence about **what was built, how it was built, which identity produced it, and whether the cluster verifies the exact artifact it runs**.
 
-> A production-minded DevSecOps reference implementation establishing verifiable trust from source commit to Kubernetes runtime.
+## Trust-chain architecture
 
-[![CI Security Checks](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/ci.yml)
-[![Signed Container Release](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/workflows/release.yml)
+<p align="center">
+  <a href="docs/architecture/interactive.html"><img src="docs/architecture/architecture.svg" alt="Software supply chain trust-chain architecture" width="100%"/></a>
+</p>
 
-[![Architecture](docs/architecture/architecture.svg)](docs/architecture/interactive.html)
+```mermaid
+flowchart LR
+  Source[Reviewed source commit] --> CI[GitHub Actions]
+  CI --> Build[Build immutable OCI image]
+  Build --> Scan[Trivy scan]
+  Build --> SBOM[Syft SBOM]
+  Build --> Sign[Cosign keyless signing]
+  CI --> Prov[Build provenance]
+  Scan --> Evidence[Release evidence]
+  SBOM --> Evidence
+  Sign --> Evidence
+  Prov --> Evidence
+  Evidence --> Verify[Verify digest, signature and identity]
+  Verify --> Admission[Kubernetes admission policy]
+  Admission --> Runtime[Trusted workload]
+```
 
-This lab demonstrates controlled builds, vulnerability scanning, SBOM generation, provenance, artifact signing and Kubernetes admission verification. A green build is not automatically a trusted deployment: the cluster independently verifies the artifact.
+A signed digest is not automatically a safe image. Runtime admission must independently verify the artifact against the expected identity and policy.
 
-## Capabilities
-- GitHub Actions with least-privilege permissions and OIDC short-lived identity.
-- Immutable OCI image digests; do not trust mutable tags as integrity evidence.
-- Trivy source/image scanning under explicit block and exception policy.
-- Syft SBOM generation tied to the exact artifact digest.
-- Cosign/Sigstore signatures and build provenance/attestations.
-- Kubernetes admission enforcement with Kyverno verifyImages.
-- Operational evidence, threat modelling, runbooks and senior interview preparation.
+## Security capabilities
 
-## Architecture
+| Control | Tool / mechanism | What it provides |
+|---|---|---|
+| Source and dependency checks | GitHub Actions, Trivy | Findings against evaluated source/artifacts |
+| Immutable artifact identity | OCI digest | Stable reference to exact image content |
+| SBOM | Syft | Component inventory tied to the artifact |
+| Signature | Cosign / Sigstore | Cryptographic signature and signing identity |
+| Provenance | GitHub attestations / SLSA concepts | Build origin and process evidence |
+| Admission | Kyverno verifyImages | Runtime verification policy |
+| Observability | Prometheus / Grafana | Workload and pipeline signals |
 
-[Open the interactive architecture preview](https://haqueamir70-coder.github.io/cloud-native-software-supply-chain-security-platform/) after enabling GitHub Pages using [these steps](docs/implementation/github-pages.md).
-- [Interactive animated architecture](docs/architecture/interactive.html)
-- [Static architecture diagram](docs/architecture/architecture.svg)
-- [Architecture and trust boundaries](docs/architecture/README.md)
-- [Architecture decision records](docs/architecture/decisions/)
+## Run the lab
 
-## Run it
-
-The optional [Azure AKS Terraform lab](terraform/azure/README.md) provisions billable infrastructure; review the cost warning before applying. The current Kubernetes Deployment is pinned to a verified signed image digest.
-
-See the [end-to-end lab guide](docs/implementation/run-the-lab.md) for local tests, Docker Compose, Trivy/Syft, GHCR release, Cosign signing and the Kyverno lab.
+Start with the [end-to-end lab guide](docs/implementation/run-the-lab.md), which covers local tests, Docker Compose, Trivy/Syft, GHCR release, Cosign signing and the Kyverno lab.
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -50,43 +66,55 @@ python -m pytest -q
 docker compose up --build -d
 ```
 
-## Observability
-
-The Compose stack provisions Prometheus and Grafana with an API dashboard for request rate, p95 latency, request totals and status codes. See the [monitoring configuration](monitoring/) and [lab guide](docs/implementation/run-the-lab.md).
-
-## Learning path
-1. [Threat model](docs/security/threat-model.md)
-2. [Security exception register](docs/security/exception-register.md)
-3. [Implementation roadmap](docs/implementation/roadmap.md)
-4. [8+ years senior DevSecOps interview handbook](docs/interview/README.md)
-5. [Scenario answer framework](docs/interview/scenario-answer-template.md)
-6. [Senior interview project walkthrough](docs/interview/project-walkthrough.md)
-
-## Technology map
-
-| Capability | Tooling | Evidence |
-|---|---|---|
-| Source CI | GitHub Actions | Workflow run and test results |
-| Workload identity | GitHub OIDC | Short-lived federated identity |
-| Container build | Docker / BuildKit | Immutable digest |
-| Vulnerability scanning | Trivy | Scan report and policy result |
-| SBOM | Syft | SPDX / CycloneDX inventory |
-| Signing | Cosign / Sigstore | Signature tied to digest and identity |
-| Provenance | GitHub attestations / SLSA concepts | Build provenance |
-| Admission | Kubernetes + Kyverno | Reject untrusted images |
-| Observability | Prometheus / Grafana | Security and delivery signals |
-
-## Security caveats
-A signature proves that an identity signed a digest; it does not prove the image is vulnerability-free. An SBOM is an inventory, not a security certification. Provenance is only as trustworthy as its builder, source controls and verification policy. Never commit production credentials, private signing keys, customer telemetry or real secrets.
+The optional [Azure AKS Terraform lab](terraform/azure/README.md) provisions billable infrastructure. Review the cost warning, quotas, identity and network prerequisites before applying.
 
 ## Verified release evidence
 
-[Open a successful signed-image release run](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/runs/41786989755). The run passed image scanning, Cosign keyless signing and identity verification, GitHub provenance generation, and SPDX SBOM upload.
+[Open the successful signed-image release workflow run](https://github.com/haqueamir70-coder/cloud-native-software-supply-chain-security-platform/actions/runs/41786989755).
 
-## Status
-The source-to-image CI/release path is implemented and has a successful GitHub Actions run covering tests, Trivy scans, Terraform validation, Docker Compose smoke tests, image signing, signature verification, provenance and SPDX SBOM upload. Kubernetes admission policy is configured in Audit mode; positive/negative admission tests and Enforce rollout still require a disposable kind/AKS cluster. The optional AKS Terraform root is validated in CI but has not been applied because it creates billable Azure resources. See the [roadmap](docs/implementation/roadmap.md) for exact completion boundaries.
+The recorded run passed image scanning, Cosign keyless signing and identity verification, GitHub provenance generation, and SPDX SBOM upload. Always inspect the workflow logs and artifact digest rather than relying on the badge alone.
 
+## Current implementation boundary
 
-## Architecture and interview preparation
+- Source-to-image CI/release path is implemented and has a successful workflow run covering tests, Trivy scans, Terraform validation, Docker Compose smoke tests, image signing, signature verification, provenance and SPDX SBOM upload.
+- Kubernetes admission policy is configured in Audit mode.
+- Positive/negative admission tests and transition to Enforce mode still require a disposable kind/AKS cluster.
+- The optional AKS Terraform root is validated in CI but has not been applied because it creates billable Azure resources.
 
-See the [architecture diagram and interview questions](docs/README.md) for the repository-specific design walkthrough and technical interview guide.
+See the [implementation roadmap](docs/implementation/roadmap.md) and [exception register](docs/security/exception-register.md) for the detailed status.
+
+## What each control proves — and does not prove
+
+- **Scan:** reports findings for the scanned artifact and configured rules; it cannot prove absence of vulnerabilities.
+- **SBOM:** inventories components; it is not a security certification.
+- **Signature:** proves an identity signed a particular digest; it does not prove the image is benign.
+- **Provenance:** describes build origin/process; trust depends on builder isolation and verification.
+- **Admission policy:** enforces configured runtime rules only when installed and operating in the target cluster.
+
+## Security engineering
+
+- Use least-privilege GitHub Actions permissions and short-lived OIDC identity.
+- Pin production images by digest, not mutable tags.
+- Keep signing private keys and production secrets out of the repository.
+- Define vulnerability thresholds and time-bound exceptions with owners.
+- Verify signatures and provenance at the cluster boundary.
+- Keep admission policy rollout staged: Audit, test, then Enforce with rollback.
+- Do not commit customer payloads, credentials or kubeconfigs.
+
+## Repository navigation
+
+- [Interactive architecture preview](docs/architecture/interactive.html)
+- [Static architecture diagram](docs/architecture/architecture.svg)
+- [Architecture and trust boundaries](docs/architecture/README.md)
+- [Architecture decision records](docs/architecture/decisions/)
+- [Threat model](docs/security/threat-model.md)
+- [Security exception register](docs/security/exception-register.md)
+- [Run the complete lab](docs/implementation/run-the-lab.md)
+- [Roadmap](docs/implementation/roadmap.md)
+- [Interview handbook](docs/interview/README.md)
+
+## Maintainer
+
+**MD Amirul Haque** · [GitHub](https://github.com/haqueamir70-coder) · [LinkedIn](https://www.linkedin.com/in/md-amirul-haque/)
+
+<sub>Trust the digest, verify the identity, enforce at runtime.</sub>
